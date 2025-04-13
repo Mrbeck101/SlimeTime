@@ -83,6 +83,7 @@ public class ParticalController : MonoBehaviour
         
         playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
         playerSR.enabled = true;
+        playerRB.simulated = true;
 
     }
 

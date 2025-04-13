@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
@@ -23,12 +24,12 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     private float longJumpDis = 0f;
     private bool inFluid = false;
     private Vector3 curVelocity;
-    private string mod;
+    private string mod = "";
     private bool isDead = false;
     private float jumpHeight = 150f;
     private bool inPast = false;
     private string nextScene = "";
-    private bool inFrontPortal = false;
+    private bool interactable = false;
     private Vector3 respawnPoint;
 
 
@@ -101,11 +102,14 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
                 playerRB.AddForce(transform.up * jumpHeight);
             }
 
-            if (Input.GetKeyDown(KeyCode.E) == true && inFrontPortal && nextScene != "")
+
+            if (Input.GetKeyDown(KeyCode.E) == true && interactable && nextScene != "")
             {
                 StartCoroutine(SceneChanger.LoadLevel(nextScene, LoadSceneMode.Single));
                 respawnPoint = transform.position;
-            }
+            } 
+
+
 
             //Adds long jump distant to movement speed and adds drag for air time
             if (!grounded && longJumpDis > 0f)
@@ -164,57 +168,66 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Tilemap tilemap = collision.collider.GetComponentInParent<Tilemap>();
 
 
-        if (tilemap != null)
+        //get name of tile collided with
+        TileBase tile = getTileCollide(collision);
+
+        if (tile != null)
         {
-            //get the contact point of collision and convert that position to the cell position to determine collision with tile map
-            var contact = collision.GetContact(0);
-            Vector3 worldPosition = contact.point - 0.05f * contact.normal;
-            Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-
-            //get name of tile collided with
-            TileBase tile = tilemap.GetTile(cellPosition);
-
-            if (tile != null)
+            if (tile.name.Contains("Spike"))
             {
-                if (tile.name.Contains("Pillar") && !grounded)
-                {
-                    //reflects current vector and magnitude to perform wall bounce
-                    //Debug.Log("Collided with Pillar");
-                    var reflect = Vector3.Reflect(curVelocity.normalized, contact.normal);
-                    horizontalMove = reflect.x * moveSpeed * 1.5f;
-                    playerRB.AddForce(transform.up * reflect.y * jumpHeight);
-
-                } else if (tile.name.Contains("Spike"))
-                {
-                    Die();
-                }
-                //Debug.Log("Collided with tile: " + tile.name);
-
+                Die();
             }
 
+        }
+        else
+        {
+            GameObject gameObject = collision.gameObject;
+            if (gameObject.name.Contains("Bullet") || gameObject.name.Contains("WreckingBall"))
+            {
+                Die();
+            }
         }
 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.name.Contains("Fluid") && mod == "Orange")
+
+        if ((collision.name.Contains("Lava") && mod == "Red") || (collision.name.Contains("Water") && mod == "Purple"))
         {
             inFluid = true;
         }
-        else if(collision.name.Contains("Fluid"))
+        else if((collision.name.Contains("Water") && mod != "Purple") || (collision.name.Contains("Lava") && mod != "Red"))
         {
             Die();
         }
 
         if (collision.name.Contains("Gate"))
         {
-            inFrontPortal = true;
-            nextScene = collision.name.Split("_")[1];
+            if(mod != "" && collision.name.Contains(mod))
+            {
+                interactable = true;
+                nextScene = collision.name.Split("_")[1];
+            }
+            else if (!collision.name.Contains("Green") &&  !collision.name.Contains("Purple") && !collision.name.Contains("Red") && !collision.name.Contains("Yellow"))
+            {
+                interactable = true;
+                nextScene = collision.name.Split("_")[1];
+            }
+
+        }
+
+        if (collision.name.Contains("Shrine") && mod == "")
+        {
+            mod = collision.name.Split("_")[1];
+            
+            if (mod != "Green")
+            {
+                
+            }
         }
     }
 
@@ -227,15 +240,16 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
         if (collision.name.Contains("Gate"))
         {
-            inFrontPortal = false;
+            interactable = false;
             nextScene = "";
         }
+
     }
 
     private void Die()
     {
-        //Destroy(gameObject);
         playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+        playerRB.simulated = false;
         spriteRenderer.enabled = false;
         isDead = true;
     }
@@ -245,7 +259,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
         if (!inPast)
         {
-            Debug.Log(respawnPoint.ToString());
+
             transform.position = respawnPoint;
             isDead = false;
         }
@@ -276,5 +290,28 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     public void SaveData(ref GameData data)
     {
         data.playerPosition = transform.position;
+    }
+
+    private TileBase getTileCollide(Collision2D collision)
+    {
+        Tilemap tilemap = collision.collider.GetComponentInParent<Tilemap>();
+
+        if (tilemap != null)
+        {
+            //get the contact point of collision and convert that position to the cell position to determine collision with tile map
+            var contact = collision.GetContact(0);
+            Vector3 worldPosition = contact.point - 0.05f * contact.normal;
+            Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+
+
+            //get name of tile collided with
+            TileBase tile = tilemap.GetTile(cellPosition);
+            return tile;
+
+        }
+        else
+        {
+            return null;
+        }
     }
 }

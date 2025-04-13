@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bc3b90fd08a9fef4c9ec71e96c48b70d
+guid: 32c9edd3a417ce8418a7021c98ec1e2e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3368773917354179559
-    second: SlimeRoll_purple_0
+      213: 6049605792901559095
+    second: Water_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SlimeRoll_purple_0
+      name: Water_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,14 +128,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7eb3f70870a40ce20800000000000000
-      internalID: 3368773917354179559
+      spriteID: 733fa0d9a6484f350800000000000000
+      internalID: 6049605792901559095
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SlimeRoll_purple_1
+      name: Water_1
       rect:
         serializedVersion: 2
         x: 16
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68cf756ec04305c4cb3fb72ef8e70f80
-      internalID: 1556976801
+      spriteID: c90cae83c7217cc4fba966cf894663f8
+      internalID: -734651845
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SlimeRoll_purple_2
+      name: Water_2
       rect:
         serializedVersion: 2
         x: 32
@@ -172,8 +172,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d36fffc895ddf7459e76c482c776951
-      internalID: -718800611
+      spriteID: 7df74bb54ef909747b310f209729be7c
+      internalID: 564324509
       vertices: []
       indices: 
       edges: []
@@ -182,7 +182,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 449247dff71d0de4f93893f483d7b485
+    spriteID: ee98a70701187c344a2c13fc20b64fc8
     internalID: 0
     vertices: []
     indices: 
@@ -192,9 +192,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SlimeRoll_purple_0: 3368773917354179559
-      SlimeRoll_purple_1: 1556976801
-      SlimeRoll_purple_2: -718800611
+      Water_0: 6049605792901559095
+      Water_1: -734651845
+      Water_2: 564324509
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
