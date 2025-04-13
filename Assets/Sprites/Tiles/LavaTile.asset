@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: BricksPillar
+  m_Name: LavaTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -6849893963081021663, guid: b1bf09dc3a7a97a40a2e0812cf9033f8, type: 3}
+  m_Sprite: {fileID: -8890641348306671835, guid: 8c82f6d7a3578604e8be2ec6d291874e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
