@@ -98,5 +98,7 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
         data.sceneName = curScene.name;
     }
 
+
+
  
 }

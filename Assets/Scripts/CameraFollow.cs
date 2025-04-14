@@ -9,7 +9,12 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var loc = GameObject.Find("Slime").GetComponent<PlayerScript>();
-        menuCam.transform.position = loc.loc;
+
+        if (GameObject.Find("Slime") != null)
+        {
+            var loc = GameObject.Find("Slime").GetComponent<PlayerScript>();
+            menuCam.transform.position = loc.loc;
+        }
+
     }
 }

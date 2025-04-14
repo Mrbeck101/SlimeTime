@@ -351,4 +351,9 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
             return null;
         }
     }
+
+    public void endGame()
+    {
+        Destroy(gameObject);
+    }
 }
