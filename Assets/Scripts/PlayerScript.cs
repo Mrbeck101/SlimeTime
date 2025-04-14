@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     [SerializeField] private CircleCollider2D playerCC;
     [SerializeField] public SpriteRenderer spriteRenderer;
     [SerializeField] private Text respawnText;
+    [SerializeField] private bool godMode;
 
     //private variables used below
     private float moveSpeed = 3.5f;
@@ -31,8 +32,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     private string nextScene = "";
     private bool interactable = false;
     private Vector3 respawnPoint;
-
-
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,6 +46,11 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     //Update is called once per frame 
     void Update()
     {
+        if (godMode)
+        {
+            mod = "Purple";   
+        }
+
         if (!isDead)
         {
             respawnText.enabled = false;
@@ -223,17 +228,36 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
         if (collision.name.Contains("Shrine") && mod == "")
         {
             mod = collision.name.Split("_")[1];
-            
-            if (mod != "Green")
+
+            switch (mod)
             {
-                
+                case "Green":
+                    spriteRenderer.color = Color.green;
+                    break;
+                case "Purple":
+                    spriteRenderer.color = Color.magenta;
+                    break;
+                case "Yellow":
+                    spriteRenderer.color = Color.yellow;
+                    break;
+                case "Red":
+                    spriteRenderer.color = Color.red;
+                    break;
+                default:
+                    spriteRenderer.color = Color.white;
+                    break;
+
             }
+                
+          
+            
+
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.name.Contains("Fluid"))
+        if (collision.name.Contains("Lava") || collision.name.Contains("Water"))
         {
             inFluid = false;
         }
@@ -248,10 +272,14 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
     private void Die()
     {
-        playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-        playerRB.simulated = false;
-        spriteRenderer.enabled = false;
-        isDead = true;
+        if (!godMode)
+        {
+            playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+            playerRB.simulated = false;
+            spriteRenderer.enabled = false;
+            isDead = true;
+        }
+        
     }
 
     private void Respawn()
@@ -262,6 +290,8 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
             transform.position = respawnPoint;
             isDead = false;
+            mod = "";
+            spriteRenderer.color = Color.white;
         }
 
         if (inPast)

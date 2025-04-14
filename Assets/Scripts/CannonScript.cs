@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CannonScript : MonoBehaviour
 {
-    [SerializeField] private float rateOfFire;
+    [SerializeField] public float rateOfFire;
     [SerializeField] private GameObject bullet;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;

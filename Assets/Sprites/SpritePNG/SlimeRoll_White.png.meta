@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d90639cf96153c84eaf11036b24cbfa1
+guid: e7228c429643c504a9435c4f38633884
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5628496115553560812
-    second: SlimeShrine_purple_0
+      213: 6635499048491809123
+    second: SlimeRoll_White_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SlimeShrine_purple_0
+      name: SlimeRoll_White_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 29
-        height: 27
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ce86c33656f6c1e40800000000000000
-      internalID: 5628496115553560812
+      spriteID: 369fbcc6a37061c50800000000000000
+      internalID: 6635499048491809123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlimeRoll_White_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eedcdc47f01b9234f9e47bac429be974
+      internalID: -975924298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlimeRoll_White_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 069f73f9cbed7aa48b4fc43a02946b81
+      internalID: 1705865508
       vertices: []
       indices: 
       edges: []
@@ -138,7 +182,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f6ab8dfe55f79e24da3aa590fb9eb41c
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +192,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SlimeShrine_purple_0: 5628496115553560812
+      SlimeRoll_White_0: 6635499048491809123
+      SlimeRoll_White_1: -975924298
+      SlimeRoll_White_2: 1705865508
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

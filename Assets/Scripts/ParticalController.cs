@@ -16,8 +16,9 @@ public class ParticalController : MonoBehaviour
     [SerializeField] Rigidbody2D playerRB;
     [SerializeField] SpriteRenderer playerSR;
 
-    float counter;
-    bool deathPlayed = false;
+    private float counter;
+    private bool deathPlayed = false;
+    private Color color;
 
     // Update is called once per frame
     void Update()
@@ -25,7 +26,9 @@ public class ParticalController : MonoBehaviour
         counter += Time.deltaTime;
         var emission = movementParticle.emission;
         var shape = movementParticle.shape;
-        
+        color = playerSR.color;
+
+        setColor();
         //check if character is moving horizontally, if so add particles
         if(Mathf.Abs(playerRB.linearVelocityX) > occurAfterVelocity)
         {
@@ -85,6 +88,18 @@ public class ParticalController : MonoBehaviour
         playerSR.enabled = true;
         playerRB.simulated = true;
 
+    }
+
+    private void setColor()
+    {
+        var mp = movementParticle.main;
+        mp.startColor = color;
+
+        var dp = deathParticle.main;
+        dp.startColor = color;
+
+        var rp = respawnParticle.main;
+        rp.startColor = color;
     }
 
 }
