@@ -80,16 +80,16 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
 
         inPast = inPast ? false : true;
 
-        var invisbleWall = GameObject.Find("InvisibleWall");
-        IEnumerable<Collider2D> walls = invisbleWall.GetComponentsInChildren<Collider2D>();
-        Rigidbody2D wallBody = invisbleWall.GetComponent<Rigidbody2D>();
+        //var invisbleWall = GameObject.Find("InvisibleWall");
+        //IEnumerable<Collider2D> walls = invisbleWall.GetComponentsInChildren<Collider2D>();
+        //Rigidbody2D wallBody = invisbleWall.GetComponent<Rigidbody2D>();
 
-        foreach(Collider2D wall in walls)
-        {
-            wall.enabled = inPast ? true: false;
+        //foreach(Collider2D wall in walls)
+        //{
+        //    wall.enabled = inPast ? true: false;
             
-        }
-        wallBody.bodyType = inPast ? RigidbodyType2D.Static : RigidbodyType2D.Kinematic;
+        //}
+        //wallBody.bodyType = inPast ? RigidbodyType2D.Static : RigidbodyType2D.Kinematic;
         
     }
     public void SaveData(ref GameData data)

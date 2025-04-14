@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     private string nextScene = "";
     private bool interactable = false;
     private Vector3 respawnPoint;
+    public Vector3 loc;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,9 +47,10 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     //Update is called once per frame 
     void Update()
     {
+        loc = transform.position;
         if (godMode)
         {
-            mod = "Purple";   
+            mod = "Yellow";   
         }
 
         if (!isDead)
@@ -70,7 +72,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
             {
                 horizontalMove = Input.GetAxisRaw("Horizontal") * moveSpeed;
             }
-            else if (prepareLongJump && jumpHeight < 200f)
+            else if (prepareLongJump && jumpHeight < 200f && mod != "Yellow")
             {
                 jumpHeight += 1f;
 
@@ -78,6 +80,11 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
                 {
                     longJumpDis += 0.05f;
                 }
+
+            }
+            else if (prepareLongJump && jumpHeight < 600f && mod == "Yellow")
+            {
+                jumpHeight += 5f;
 
             }
             else if (!prepareLongJump && !grounded)
@@ -212,7 +219,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
         if (collision.name.Contains("Gate"))
         {
-            if(mod != "" && collision.name.Contains(mod))
+            if(mod != "" && collision.name.Contains(mod) || godMode)
             {
                 interactable = true;
                 nextScene = collision.name.Split("_")[1];
