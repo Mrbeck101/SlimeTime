@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CannonScript : MonoBehaviour
@@ -21,7 +19,7 @@ public class CannonScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // Creates game object bullet, when the sprite animation has reached its 4 frame of animation
     void Update()
     {
 
@@ -40,6 +38,7 @@ public class CannonScript : MonoBehaviour
 
     }
 
+    //creates the rate of fire for the bullet to be shot out of the cannon
     private IEnumerator waitPeriod(float time)
     {
         Vector3 bulletPos = transform.position;

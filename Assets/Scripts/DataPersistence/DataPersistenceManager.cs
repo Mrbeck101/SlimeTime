@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Linq;
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.IO;
@@ -34,6 +33,7 @@ public class DataPersistenceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    //Deletes previous game, and creates directory to store version jsons
     private void initializeDataManager()
     {
         if(DataPersistenceManager.Instance != null)
@@ -48,6 +48,7 @@ public class DataPersistenceManager : MonoBehaviour
             Instance.dataPersistenceObjects = FindAllDataPersistenceObjects();
         }
     }
+    //responsible for loading the list of game data from the json and converting it back into game objects
     public void LoadPast(string version)
     {
         Instance.gameData = Instance.dataHandler.Load(version);
@@ -58,6 +59,7 @@ public class DataPersistenceManager : MonoBehaviour
         }
     }
 
+    //Loads the version labeled current time when called
     public void LoadCurrent()
     {
         Instance.gameData = Instance.dataHandler.Load("CurrentTime");
@@ -68,6 +70,7 @@ public class DataPersistenceManager : MonoBehaviour
         }
     }
 
+    //responsible for taking a list of gamedata types and converting it to json data and saving it
     public void NewVersion()
     {
         foreach (IDataPersistence dataPersistenceObj in Instance.dataPersistenceObjects)
@@ -78,6 +81,7 @@ public class DataPersistenceManager : MonoBehaviour
         Instance.dataHandler.Save(Instance.gameData, VersionNum.text.ToString());
     }
 
+    //saves the current version
     public void CurrentVersionSave()
     {
         foreach (IDataPersistence dataPersistenceObj in Instance.dataPersistenceObjects)
@@ -88,6 +92,8 @@ public class DataPersistenceManager : MonoBehaviour
         Instance.dataHandler.Save(Instance.gameData, "CurrentTime");
     }
 
+
+    //fetches all game objects that contain our interface implemented
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IDataPersistence>();

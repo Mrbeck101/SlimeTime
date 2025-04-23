@@ -53,16 +53,18 @@ public class ParticalController : MonoBehaviour
             emission.enabled = false;
         }
 
+        //if player is dead play death particle once, then stop playing since death played is true
         if(playerRB.constraints == RigidbodyConstraints2D.FreezeAll && !deathPlayed)
         {
             deathParticle.Play();
             deathPlayed = true;
         } 
+        //player respawned so deathplayed goes back to false
         else if(playerRB.constraints == RigidbodyConstraints2D.FreezeRotation)
         {
             deathPlayed = false;
         }
-
+        //play respawn particle animation
         if(Input.GetKeyDown(KeyCode.R) && deathPlayed)
         {
             deathParticle.Stop();
@@ -76,6 +78,7 @@ public class ParticalController : MonoBehaviour
 
     }
 
+    //wait until respawn animation is played then reenable character
     private IEnumerator waitForRespawn()
     {
         while (respawnParticle.isPlaying)

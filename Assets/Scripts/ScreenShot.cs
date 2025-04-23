@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections;
@@ -28,12 +27,15 @@ public class ScreenShot : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    //deletes screenshots directory if it exists, and then creates it
     private void initializePath()
     {
         path = Application.persistentDataPath + "/screenshots/";
         if (Directory.Exists(path)) { Directory.Delete(path, true); }
         Directory.CreateDirectory(path);
     }
+    //hides UI takes a screen shot, and stores it in the directory
     IEnumerator getScreenCapture()
     {
         var version = VersionNum.text.ToString();
@@ -41,7 +43,7 @@ public class ScreenShot : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
         ScreenCapture.CaptureScreenshot(path + version + ".png");
-        UnityEditor.AssetDatabase.Refresh();
+        //UnityEditor.AssetDatabase.Refresh();
         OnScreen.sortingOrder = 3;
     }
 

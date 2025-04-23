@@ -1,6 +1,3 @@
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -48,10 +45,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
     void Update()
     {
         loc = transform.position;
-        if (godMode)
-        {
-            mod = "Yellow";   
-        }
+
 
         if (!isDead)
         {
@@ -150,6 +144,8 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
             curVelocity = playerRB.linearVelocity;
 
+            
+
             //Setting values to be used in animator in unity, to swap animations dependent on variable
             animator.SetFloat("speed", Mathf.Abs(horizontalMove));
             animator.SetBool("prepareLongJump", prepareLongJump);
@@ -164,6 +160,22 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
             {
                 Respawn();
             }
+        }
+
+        //disables UI buttons if dead or time traveled
+        if (!inPast && !isDead)
+        {
+            var obliBtn = GameObject.Find("ObliterateBtn").GetComponent<Button>();
+            obliBtn.enabled = true;
+            var ver = GameObject.Find("Version").GetComponent<Button>();
+            ver.enabled = true;
+        }
+        else
+        {
+            var obliBtn = GameObject.Find("ObliterateBtn").GetComponent<Button>();
+            obliBtn.enabled = false;
+            var ver = GameObject.Find("Version").GetComponent<Button>();
+            ver.enabled = false;
         }
     }
 
@@ -207,7 +219,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        //check if collided with fluid, if you have the corresponding mod set bool influid to true allowing the character to jump from liquid
         if ((collision.name.Contains("Lava") && mod == "Red") || (collision.name.Contains("Water") && mod == "Purple"))
         {
             inFluid = true;
@@ -217,6 +229,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
             Die();
         }
 
+        //check if collided with Gate, gets next scene name
         if (collision.name.Contains("Gate"))
         {
             if(mod != "" && collision.name.Contains(mod) || godMode)
@@ -232,6 +245,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
         }
 
+        //if mod is empty and one of the shrines have been colided with, change slime to that color
         if (collision.name.Contains("Shrine") && mod == "")
         {
             mod = collision.name.Split("_")[1];
@@ -261,14 +275,17 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
         }
     }
-
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
+        //On exiting fluid set to influid to false to prevent infinte jumping
         if (collision.name.Contains("Lava") || collision.name.Contains("Water"))
         {
             inFluid = false;
         }
 
+
+        //On exiting interactable set interactable to false
         if (collision.name.Contains("Gate"))
         {
             interactable = false;
@@ -277,6 +294,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
 
     }
 
+    //Says what it does
     private void Die()
     {
         if (!godMode)
@@ -288,7 +306,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
         }
         
     }
-
+    
     private void Respawn()
     {
 
@@ -319,6 +337,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
         
     }
 
+    //This class extends the IDataPersistence interface, as it has data that has to be saved and loaded from
     public void LoadData(GameData data)
     {
         inPast = inPast ? false : true;
@@ -329,6 +348,7 @@ public class PlayerScript : MonoBehaviour, IDataPersistence
         data.playerPosition = transform.position;
     }
 
+    //function do determine which tile on the tile map the player collided with
     private TileBase getTileCollide(Collision2D collision)
     {
         Tilemap tilemap = collision.collider.GetComponentInParent<Tilemap>();

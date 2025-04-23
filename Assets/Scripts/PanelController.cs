@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using System;
-using UnityEngine.SceneManagement;
+
 
 public class PanelController : MonoBehaviour
 {
     private IEnumerable<Button> UIButtons;
+
+    //gets each button in Revisit past menu and populates them with images of each version and disables buttons with no version available yet
     void Start()
     {
         UIButtons = GetComponentsInChildren<Button>();
@@ -28,22 +29,14 @@ public class PanelController : MonoBehaviour
         }
     }
 
+    //loads that version
     void TaskOnClick(string version)
     {
         var dpm = GameObject.Find("DataPersistenceManager").GetComponent<DataPersistenceManager>();
         dpm.LoadPast(version);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
-        //    Time.timeScale = 1;
-        //    SceneManager.UnloadSceneAsync(1);
-        //}
-    }
 
+    //converts screenshot to sprite image to populate button
     private Sprite CreateSprite(string filePath)
     {
         if (File.Exists(filePath))
@@ -59,13 +52,12 @@ public class PanelController : MonoBehaviour
                     100.0f
                 );
 
-                //newSprite.texture.filterMode = FilterMode.Bilinear;
                 return newSprite;
             }
             else
             {
 
-                //Debug.LogError("Failed to load image from: " + filePath);
+
                 return null;
             }
         }

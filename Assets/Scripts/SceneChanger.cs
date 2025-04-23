@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using NUnit.Framework;
-using System.Collections.Generic;
+
 
 
 public class SceneChanger : MonoBehaviour, IDataPersistence
@@ -29,6 +28,7 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
 
     void Update()
     {
+        //exit revisit past menu
         if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene() != curScene && !inPast)
         {
             var temp = SceneManager.GetActiveScene();
@@ -36,6 +36,7 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
             Time.timeScale = 1;
             SceneManager.UnloadSceneAsync(temp);
         } 
+        //exit the past and go back to current
         else if(Input.GetKeyDown(KeyCode.Escape) && inPast)
         {
             var dpm = GameObject.Find("DataPersistenceManager").GetComponent<DataPersistenceManager>();
@@ -44,6 +45,7 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
         }
 
     }
+    //Opens the revisit past menu, and pauses world
     public void RevisitPastMenu()
     {
         Time.timeScale = 0;
@@ -56,6 +58,7 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
         
     }
 
+    //Used to force the game to wait until the next scene is loaded
     public static IEnumerator LoadLevel(string sceneName, LoadSceneMode lsm)
     {
         var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, lsm);
@@ -65,8 +68,17 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
             yield return null;
         }
 
+        //destroys the player character at end of game
+        if (sceneName == "EndGame")
+        {
+            var slime = GameObject.Find("Slime").GetComponent<PlayerScript>();
+            slime.endGame();
+        }
+
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
     }
+
+    //unpauses world and loads scemeName
     public void LoadData(GameData data)
     {
         Time.timeScale = 1;
@@ -80,18 +92,10 @@ public class SceneChanger : MonoBehaviour, IDataPersistence
 
         inPast = inPast ? false : true;
 
-        //var invisbleWall = GameObject.Find("InvisibleWall");
-        //IEnumerable<Collider2D> walls = invisbleWall.GetComponentsInChildren<Collider2D>();
-        //Rigidbody2D wallBody = invisbleWall.GetComponent<Rigidbody2D>();
-
-        //foreach(Collider2D wall in walls)
-        //{
-        //    wall.enabled = inPast ? true: false;
-            
-        //}
-        //wallBody.bodyType = inPast ? RigidbodyType2D.Static : RigidbodyType2D.Kinematic;
         
     }
+    
+    //Saves game scene name to game data type
     public void SaveData(ref GameData data)
     {
         var curScene = SceneManager.GetActiveScene();
