@@ -1,6 +1,6 @@
 This is a Unity Project for CSI5610 
 
-The code here is not executable as it requires Unity engine to run, so I have also provided the build of the game with my deliverables.
+The code here is not executable as it requires Unity engine to run, so I have also provided the build of the game with my deliverables. All the code be found in the /Assets/Scripts directory
 
 The controls are simple A to move left, D to move right, Space to Jump, Shift to charge jump distance, Shift+Space to increase jump distance and height.
 
